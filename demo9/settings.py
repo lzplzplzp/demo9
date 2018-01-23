@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 """
 Django settings for demo9 project.
 
@@ -99,5 +100,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
-STATIC_URL = '/static/'
+# 访问路径
+STATIC_URL = 'res/'
+# 当前磁盘的绝对路径
+STATIC_ROOT= os.path.join(BASE_DIR, '/pythonwork/demo9/templates/res/')
+STATICFILES_DIRS = (
+    os.path.join(os.path.dirname(__file__), '/templates/'),
+)

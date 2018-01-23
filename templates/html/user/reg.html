@@ -60,11 +60,11 @@
       <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
         <div class="layui-tab-item layui-show">
           <div class="layui-form layui-form-pane">
-            <form method="post">
+            <form method="post" action="/reg">
               <div class="layui-form-item">
-                <label for="L_email" class="layui-form-label">邮箱</label>
+                <label for="L_phone" class="layui-form-label">手机号</label>
                 <div class="layui-input-inline">
-                  <input type="text" id="L_email" name="email" required lay-verify="email" autocomplete="off" class="layui-input">
+                  <input type="text" id="L_phone" name="phone" required lay-verify="phone" autocomplete="off" class="layui-input">
                 </div>
                 <div class="layui-form-mid layui-word-aux">将会成为您唯一的登入名</div>
               </div>
@@ -138,6 +138,8 @@ layui.config({
 }).extend({
   fly: 'index'
 }).use('fly');
+
+
 </script>
 
 </body>
