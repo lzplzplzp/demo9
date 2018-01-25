@@ -1,13 +1,6 @@
-import sqlite3
+import models
 
-conn = sqlite3.connect('../db.sqlite3')
 
-cursor = conn.cursor()
+user=models.User(name='a',title='b',head='c',phone='111',password='111')
+user.save()
 
-cursor.execute('select * from user')
-values = cursor.fetchall()
-print values
-
-cursor.close()
-
-conn.close()

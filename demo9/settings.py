@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'demo9',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -78,8 +79,12 @@ WSGI_APPLICATION = 'demo9.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test',
+        'USER': 'demo',
+        'PASSWORD': 'demo9',
+        'HOST': '123.207.66.193',
+        'PORT': '3306',
     }
 }
 

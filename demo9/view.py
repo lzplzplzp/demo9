@@ -1,27 +1,25 @@
 # -*- coding:utf-8 -*-
 from django.shortcuts import render
-from django.db import connection, transaction
+from models import User
 
 def hello(request):
-    cursor = connection.cursor()
-    context={}
+
+    context = {}
     try:
-        context['hello']="oshifohf,,,asa"
+        # 登录信息
         username = request.COOKIES["username"]
         if username:
             context['username'] = username
-            cursor.execute('select title,headSrc from user WHERE name='+username)
-            values = cursor.fetchall()
-            if values:
+            value = User.objects.get(name=username)
+            if value:
                 context['login'] = True
-                if values[0][0]:
-                    context['title']=values[0][0]
-                if values[0][1]:
-                    context['headSrc'] = values[0][1]
-
+                if value.title:
+                    context['title'] = value.title
+                if value.head:
+                    context['headSrc'] = value.head
     except Exception,e:
         print e.message
     finally:
-        cursor.close()
+        print "index ok"
 
-    return render(request,'html/index.html',context)
+    return render(request, 'html/index.html', context)

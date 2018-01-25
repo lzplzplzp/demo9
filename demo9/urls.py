@@ -18,13 +18,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls.static import static
 from . import view
-from . import login
+from . import LoginController
 from . import RegController
 from . import settings
 
 urlpatterns = [
     url(r'^$', view.hello),
-    url(r'^login.json$', login.login),
+    url(r'^user/login$', LoginController.login),
     url(r'^reg$', RegController.reg),
     url(r'^user/reg$', RegController.view),
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

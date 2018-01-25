@@ -5,19 +5,20 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.db import connection, transaction
+from models import User
 
 
 @csrf_exempt
 def reg(request):
 
-    cursor = connection.cursor()
     resp = {'status': 0, 'action': '/'}
     try:
         phone= request.POST.get("phone")
         username=request.POST.get("username")
         password=request.POST.get("pass")
-        cursor.execute("INSERT INTO user ('name','phone','password') VALUES ("+username+","+phone+","+password+")")
-        transaction.commit()
+
+        user = User(name=username, phone=phone, password=password)
+        user.save()
         response = HttpResponse(json.dumps(resp), content_type="application/json")
         response.set_cookie("username", username, 3600)
         return response
@@ -26,7 +27,7 @@ def reg(request):
         resp = {'status': 1}
         return HttpResponse(json.dumps(resp), content_type="application/json")
     finally:
-        cursor.close()
+        print "ok"
 
 
 
