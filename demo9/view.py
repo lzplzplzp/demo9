@@ -1,25 +1,75 @@
 # -*- coding:utf-8 -*-
 from django.shortcuts import render
-from models import User
+from models import User,Article
+import prpcrypt
 
 def hello(request):
 
+    page = 12
     context = {}
-    try:
-        # 登录信息
-        username = request.COOKIES["username"]
-        if username:
-            context['username'] = username
-            value = User.objects.get(name=username)
-            if value:
-                context['login'] = True
-                if value.title:
+    prp=prpcrypt.prp()
+    # 登录信息
+    if request.session.get("user_id"):
+        context['login'] = True
+        context['title'] = request.session.get("user_title")
+        context['headSrc'] = request.session.get("user_head")
+        context['username'] = request.session.get("user_name")
+        context['level'] = request.session.get("user_level")
+    else:
+        if "username" in request.COOKIES:
+            username = request.COOKIES["username"]
+            if username:
+                name=prp.decrypt(username)
+                context['username'] = name
+                value = User.objects.get(name=name)
+                if value:
+                    context['login'] = True
                     context['title'] = value.title
-                if value.head:
                     context['headSrc'] = value.head
-    except Exception,e:
-        print e.message
-    finally:
-        print "index ok"
+                    request.session['user_name'] = value.name
+                    request.session['user_id'] = value.id
+                    request.session['user_head'] = value.head
+                    request.session['user_title'] = value.title
+                    request.session['user_level'] = value.level
+
+    # 内容 置顶
+    article_list1=Article.objects.filter(status=2)[:5]
+    if article_list1:
+        context['article_list1'] = article_list1
+    # 内容 列表
+    article_list2 = Article.objects.filter(status=1)[:page]
+    if article_list2:
+        context['article_list2'] = article_list2
+
 
     return render(request, 'html/index.html', context)
+
+
+def header(request):
+    context = {}
+    prp = prpcrypt.prp()
+    # 登录信息
+    if request.session.get("user_id"):
+        context['login'] = True
+        context['title'] = request.session.get("user_title")
+        context['headSrc'] = request.session.get("user_head")
+        context['username'] = request.session.get("user_name")
+        context['level'] = request.session.get("user_level")
+    else:
+        if "username" in request.COOKIES:
+            username = request.COOKIES["username"]
+            if username:
+                name = prp.decrypt(username)
+                context['username'] = name
+                value = User.objects.get(name=name)
+                if value:
+                    context['login'] = True
+                    context['title'] = value.title
+                    context['headSrc'] = value.head
+                    request.session['user_name'] = value.name
+                    request.session['user_id'] = value.id
+                    request.session['user_head'] = value.head
+                    request.session['user_title'] = value.title
+                    request.session['user_level'] = value.level
+
+    return render(request, 'html/common/header.html', context)

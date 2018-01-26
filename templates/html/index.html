@@ -27,7 +27,7 @@
         <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
       </li>
     </ul>
-    
+
     <ul class="layui-nav fly-nav-user">
       {% if login %}
         <!-- 登入后的状态 -->
@@ -89,10 +89,10 @@
     
     <div class="fly-column-right layui-hide-xs"> 
       <span class="fly-search"><i class="layui-icon"></i></span> 
-      <a href="jie/add.html" class="layui-btn">发表新帖</a> 
+      <a href="jie/add" class="layui-btn">发表新帖</a>
     </div> 
     <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
-      <a href="jie/add.html" class="layui-btn">发表新帖</a> 
+      <a href="jie/add" class="layui-btn">发表新帖</a>
     </div> 
   </div>
 </div>
@@ -106,25 +106,48 @@
           <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
         </div>
         <ul class="fly-list">
-          {% for item in article_list %}
+          {% for item in article_list1 %}
           <li>
             <a href="user/home.html" class="fly-avatar">
-              <img src="https://pic4.zhimg.com/v2-7d8a73dd9cb13c34359bdf6dd4738b9b_xl.jpg" alt="当年我还小">
+              <img src="{{ item.authorHead }}" alt="{{ item.authorName }}">
             </a>
             <h2>
-              <a class="layui-badge">动态</a>
-              <a href="jie/detail.html">基于 layui 的极简社区页面模版</a>
+              <a class="layui-badge">
+
+                  {% if item.type == 0 %}
+                      提问
+                  {% elif item.type == 1 %}
+                      分享
+                  {% elif item.type == 2 %}
+                      讨论
+                  {% elif item.type == 3 %}
+                      建议
+                  {% elif item.type == 4 %}
+                      公告
+                  {% else %}
+                      动态
+                  {% endif %}
+              </a>
+              <a href="jie/detail.html">{{ item.name }}</a>
             </h2>
             <div class="fly-list-info">
               <a href="user/home.html" link>
-                <cite>贤心</cite>
-                <i class="iconfont icon-renzheng" title="认证信息：XXX"></i>
-                <i class="layui-badge fly-badge-vip">VIP3</i>
+                <cite>{{ item.authorName  }}</cite>
+                <i class="iconfont icon-renzheng" title="认证信息：VIP{{ level }} "></i>
+                <i class="layui-badge fly-badge-vip">VIP{{ level }} </i>
               </a>
-              <span>刚刚</span>
+              <span>{{ item.createTime }}</span>
               
-              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>
-              <span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>
+              <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> {{ item.experience }}</span>
+              <span class="layui-badge fly-badge-accept layui-hide-xs">
+                  {% if item.status == 1 %}
+
+                  {% elif item.status == 2 %}
+                      已结
+                  {% else %}
+
+                  {% endif %}
+              </span>
               <span class="fly-list-nums"> 
                 <i class="iconfont icon-pinglun1" title="回答"></i> 66
               </span>

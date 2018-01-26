@@ -9,8 +9,12 @@ class Article(models.Model):
     authorId = models.IntegerField()
     authorHead = models.CharField(max_length=30)
     arthorType = models.IntegerField()
+    type = models.IntegerField()
+    status = models.IntegerField()
+    experience = models.IntegerField()
     createTime = models.DateField(auto_now_add=True)
     modifyTime = models.DateField(auto_now=True)
+
 
 class User(models.Model):
     name = models.CharField(max_length=30)

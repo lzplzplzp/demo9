@@ -20,11 +20,17 @@ from django.conf.urls.static import static
 from . import view
 from . import LoginController
 from . import RegController
+from . import ArticleController
 from . import settings
 
 urlpatterns = [
+    url(r'^header$', view.header),
     url(r'^$', view.hello),
-    url(r'^user/login$', LoginController.login),
+    url(r'^user/login$', LoginController.view),
+    url(r'^login$', LoginController.login),
     url(r'^reg$', RegController.reg),
     url(r'^user/reg$', RegController.view),
+    url(r'^jie/add$', ArticleController.view),
+    url(r'^addArticle$', ArticleController.addArticle),
+
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
