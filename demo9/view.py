@@ -4,7 +4,14 @@ from models import User,Article
 import prpcrypt
 
 def hello(request):
-
+    status = request.GET.get("status")
+    type = request.GET.get("type")
+    sort = request.GET.get("sort")
+    sortType = None
+    if sort == None or sort == 1:
+        sortType = 'comment'
+    elif sort == 2:
+        sortType = 'createTime'
     page = 12
     context = {}
     prp=prpcrypt.prp()
@@ -37,7 +44,13 @@ def hello(request):
     if article_list1:
         context['article_list1'] = article_list1
     # 内容 列表
-    article_list2 = Article.objects.filter(status=1)[:page]
+    article_list2= None
+    if type:
+        article_list2= Article.objects.filter(type=type).exclude(type=2)[:page]
+    elif status:
+        article_list2 = Article.objects.filter(status=status).exclude(type=2)[:page]
+    else:
+        article_list2 = Article.objects.exclude(status=2).order_by(sortType)[:page]
     if article_list2:
         context['article_list2'] = article_list2
 

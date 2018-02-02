@@ -12,6 +12,7 @@ class Article(models.Model):
     type = models.IntegerField()
     status = models.IntegerField()
     experience = models.IntegerField()
+    comment = models.IntegerField()
     createTime = models.DateField(auto_now_add=True)
     modifyTime = models.DateField(auto_now=True)
 

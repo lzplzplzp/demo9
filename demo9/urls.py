@@ -26,6 +26,7 @@ from . import settings
 urlpatterns = [
     url(r'^header$', view.header),
     url(r'^$', view.hello),
+    url(r'^index$', view.hello),
     url(r'^user/login$', LoginController.view),
     url(r'^login$', LoginController.login),
     url(r'^reg$', RegController.reg),
