@@ -21,6 +21,7 @@ from . import view
 from . import LoginController
 from . import RegController
 from . import ArticleController
+from . import JieController
 from . import settings
 
 urlpatterns = [
@@ -32,6 +33,7 @@ urlpatterns = [
     url(r'^reg$', RegController.reg),
     url(r'^user/reg$', RegController.view),
     url(r'^jie/add$', ArticleController.view),
+    url(r'^jie/index', JieController.view),
     url(r'^addArticle$', ArticleController.addArticle),
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
