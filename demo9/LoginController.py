@@ -6,12 +6,10 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from models import User
 from django.views.decorators.csrf import csrf_exempt
-import prpcrypt
 
 @csrf_exempt
 def login(request):
     resp = {'status': 1, 'action': '/'}
-    prp= prpcrypt.prp()
     try:
         phone = request.POST.get("phone")
         password = request.POST.get("pass")
@@ -25,7 +23,7 @@ def login(request):
             if value.password==password:
                 resp = {'status': 0, 'action': '/'}
                 response = HttpResponse(json.dumps(resp), content_type="application/json")
-                response.set_cookie("username", prp.encrypt(value.name), 3600)
+                response.set_cookie("username", value.name, 3600)
                 return response
     except Exception as e:
         print(e.message)

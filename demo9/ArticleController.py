@@ -6,12 +6,11 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from models import Article,User
 from django.views.decorators.csrf import csrf_exempt
-import prpcrypt
 
 @csrf_exempt
 def addArticle(request):
     resp = {'status': 1, 'action': '/'}
-    prp=prpcrypt.prp()
+
     try:
         authorName =""
         authorId = 0
@@ -23,8 +22,7 @@ def addArticle(request):
         if "username" in request.COOKIES:
             username = request.COOKIES["username"]
             if username:
-                name = prp.decrypt(username)
-                value = User.objects.get(name=name)
+                value = User.objects.get(name=username)
                 if value:
                     authorName = value.name
                     authorId = value.id
@@ -58,13 +56,14 @@ def view(request):
     if "username" in request.COOKIES:
         username = request.COOKIES["username"]
         if username:
-            name = prpcrypt.decrypt(username)
-            context['username'] = name
-            value = User.objects.get(name=name)
+            context['username'] = username
+            value = User.objects.get(name=username)
             if value:
                 context['login'] = True
                 if value.title:
                     context['title'] = value.title
                 if value.head:
                     context['headSrc'] = value.head
-    return render(request, 'html/jie/add.html', context)
+        return render(request, 'html/jie/add.html', context)
+    else:
+        return render(request, 'html/index.html', context)

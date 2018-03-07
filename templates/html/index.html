@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>基于 layui 的极简社区页面模版</title>
+  <title>扯淡论坛</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link rel="stylesheet" href="../res/layui/css/layui.css">
   <link rel="stylesheet" href="../res/css/global.css">
@@ -14,19 +14,9 @@
   <div class="layui-container">
     <a class="fly-logo" href="/">
      <!-- <img src="../res/images/logo.png" alt="layui"> -->
-     	<span style="color:#D2D2D2;">天涯社区</span>
+     	<span style="color:#D2D2D2;">扯淡论坛</span>
     </a>
-    <ul class="layui-nav fly-nav layui-hide-xs">
-      <li class="layui-nav-item layui-this">
-        <a href="/"><i class="iconfont icon-jiaoliu"></i>交流</a>
-      </li>
-      <li class="layui-nav-item">
-        <a href="case/case.html"><i class="iconfont icon-iconmingxinganli"></i>案例</a>
-      </li>
-      <li class="layui-nav-item">
-        <a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>框架</a>
-      </li>
-    </ul>
+
 
     <ul class="layui-nav fly-nav-user">
       {% if login %}
@@ -52,10 +42,10 @@
         <a class="iconfont icon-touxiang layui-hide-xs" href="user/login.html"></a>
       </li>
       <li class="layui-nav-item">
-        <a href="user/login">登入</a>
+        <a href="/user/login">登入</a>
       </li>
       <li class="layui-nav-item">
-        <a href="user/reg">注册</a>
+        <a href="/user/reg">注册</a>
       </li>
       <li class="layui-nav-item layui-hide-xs">
         <a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>
@@ -73,12 +63,12 @@
   <div class="layui-container">
     <ul class="layui-clear">
       <li class="layui-hide-xs layui-this"><a href="/">首页</a></li> 
-      <li><a href="jie/index">提问</a></li>
-      <li><a href="jie/index">分享<span class="layui-badge-dot"></span></a></li>
-      <li><a href="jie/index">讨论</a></li>
-      <li><a href="jie/index">建议</a></li>
-      <li><a href="jie/index">公告</a></li>
-      <li><a href="jie/index">动态</a></li>
+      <li><a href="/jie/index?type=0">提问</a></li>
+      <li><a href="/jie/index?type=1">分享<span class="layui-badge-dot"></span></a></li>
+      <li><a href="/jie/index?type=2">讨论</a></li>
+      <li><a href="/jie/index?type=3">建议</a></li>
+      <li><a href="/jie/index?type=4">公告</a></li>
+      <li><a href="/jie/index?type=5">动态</a></li>
       <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li> 
       {% if login %}
       <!-- 用户登入后显示 -->
@@ -89,10 +79,10 @@
     
     <div class="fly-column-right layui-hide-xs"> 
       <span class="fly-search"><i class="layui-icon"></i></span> 
-      <a href="jie/add" class="layui-btn">发表新帖</a>
+      <a href="/jie/add" class="layui-btn">发表新帖</a>
     </div> 
     <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;"> 
-      <a href="jie/add" class="layui-btn">发表新帖</a>
+      <a href="/jie/add" class="layui-btn">发表新帖</a>
     </div> 
   </div>
 </div>
@@ -140,9 +130,9 @@
               
               <span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> {{ item.experience }}</span>
               <span class="layui-badge fly-badge-accept layui-hide-xs">
-                  {% if item.status == 1 %}
+                  {% if item.status == 0 %}
 
-                  {% elif item.status == 2 %}
+                  {% elif item.status == 1 %}
                       已结
                   {% else %}
 
@@ -166,17 +156,17 @@
       <div class="fly-panel" style="margin-bottom: 0;">
         
         <div class="fly-panel-title fly-filter">
-          <a href="/index" class="layui-this">综合</a>
+          <a href="/index?{% if type %}type={{ type }}{% endif %}" {% if status or star %}{% else %} class="layui-this" {% endif %}>综合</a>
           <span class="fly-mid"></span>
-          <a href="/index?status=1">未结</a>
+          <a href="/index?status=0&{% if type %}type={{ type }}{% endif %}" {% ifequal status '0' %}class="layui-this"{% endifequal %}>未结</a>
           <span class="fly-mid"></span>
-          <a href="/index?status=4">已结</a>
+          <a href="/index?status=1&{% if type %}type={{ type }}{% endif %}" {% ifequal status '1' %}class="layui-this"{% endifequal %}>已结</a>
           <span class="fly-mid"></span>
-          <a href="/index?status=3">精华</a>
+          <a href="/index?star=1&{% if type %}type={{ type }}{% endif %}" {% ifequal star '1' %}class="layui-this"{% endifequal %}>精华</a>
           <span class="fly-filter-right layui-hide-xs">
-            <a href="/index?sort=1" class="layui-this">按最新</a>
+            <a href="/index?sort=1&status={{ status }}&star={{ star }}&type={{ type }}" {% ifequal sort '1' %}class="layui-this"{% endifequal %}>按最新</a>
             <span class="fly-mid"></span>
-            <a href="/index?sort=2">按热议</a>
+            <a href="/index?sort=2&status={{ status }}&star={{ star }}&type={{ type }}" {% ifequal sort '2' %}class="layui-this"{% endifequal %}>按热议</a>
           </span>
         </div>
 
