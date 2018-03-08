@@ -6,9 +6,13 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from models import User
 from django.views.decorators.csrf import csrf_exempt
-
+import redisC
 @csrf_exempt
 def login(request):
+    # redis = redisC.rcon()
+    # redis.hset('user', 'login' , 1)
+    # redis.hincrby('user', 'aaa',amount=1)
+    # print(redis.hgetall('user'))
     resp = {'status': 1, 'action': '/'}
     try:
         phone = request.POST.get("phone")

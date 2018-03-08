@@ -1,8 +1,10 @@
 # -*- coding:utf-8 -*-
 from django.shortcuts import render
 from models import User,Article
+import redisC
 
 def hello(request):
+    redis = redisC.rcon()
     context = {}
     status = request.GET.get("status")
     type = request.GET.get("type")
@@ -62,6 +64,13 @@ def hello(request):
         article_list2 = Article.objects.exclude(star=2).order_by(sortType)[:page]
     if article_list2:
         context['article_list2'] = article_list2
+
+    # 回帖周榜
+
+    redis.hmget('replyList', "1", "2", "3")
+
+    # 本周热议
+
 
 
     return render(request, 'html/index.html', context)

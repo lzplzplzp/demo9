@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^user/reg$', RegController.view),
     url(r'^jie/add$', ArticleController.view),
     url(r'^jie/index', JieController.view),
+    url(r'^jie/detail', JieController.detail),
     url(r'^addArticle$', ArticleController.addArticle),
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
